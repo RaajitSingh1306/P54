@@ -1,0 +1,19 @@
+# version: '3.8'  ← (optional, can be removed to avoid the warning)
+
+services:
+  mongodb_alt:
+    image: mongo
+    container_name: mongodb_alt  # 🆕 New name to avoid conflict
+    ports:
+      - "27018:27017"            # 🆕 Avoid conflict with existing MongoDB
+    restart: always
+
+  mongo-express-alt:
+    image: mongo-express
+    container_name: mongo-express-alt  # 🆕 New name
+    ports:
+      - "8082:8081"                    # 🆕 Different port to avoid clash
+    depends_on:
+      - mongodb_alt
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb_alt
